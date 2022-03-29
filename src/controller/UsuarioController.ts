@@ -18,14 +18,6 @@ export default class UsuarioController {
   static async CriarUsuarios(req: Request, resp: Response): Promise<void> {
     let connection;
 
-    // try {
-    //   connection = await oracledb.getConnection(dbconfig);
-    // } catch (error) {
-    //   const retor = new Error('Erro ao abrir conexão com o oracle');
-
-    //   res.status(200).json(retor);
-    // }
-
     try {
       connection = await oracledb.getConnection(dbconfig);
       const usuario: UsuarioNovoInterface = req.body;
@@ -70,6 +62,8 @@ export default class UsuarioController {
           const salt = bcrypt.genSaltSync(10);
           const hash = bcrypt.hashSync(req.body.senha, salt);
 
+          const [dia, mes, ano] = req.body.dataNascimento.split('-');
+
           const sql =
             'INSERT INTO teste_ti_cad_usuario (nome, apelido, login, senha, tipo_usuario, desativado, dt_nascimento ) VALUES (:nome, :apelido, :login, :senha, :tipo_usuario, :desativado, :dt_nascimento)';
 
@@ -101,7 +95,7 @@ export default class UsuarioController {
                 type: oracledb.NUMBER,
               },
               dt_nascimento: {
-                val: new Date(usuario.dataNascimento),
+                val: new Date(ano, mes, dia),
                 type: oracledb.DATE,
               },
             },
@@ -118,7 +112,6 @@ export default class UsuarioController {
         }
       }
     } catch (err) {
-      await connection?.rollback();
       resp.status(400).json('Erro de Conexão');
     } finally {
       if (connection) {
@@ -322,6 +315,8 @@ export default class UsuarioController {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(usuario.senha, salt);
 
+      const [dia, mes, ano] = req.body.dataNascimento.split('-');
+
       const sql =
         'UPDATE teste_ti_cad_usuario SET nome = :nome, apelido = :apelido,login = :login, senha = :senha, tipo_usuario = :tipo_usuario, desativado = :desativado, dt_nascimento = : dt_nascimento WHERE cod_usuario = :cod_usuario RETURN cod_usuario INTO :usuario';
 
@@ -355,7 +350,7 @@ export default class UsuarioController {
           type: oracledb.NUMBER,
         },
         dt_nascimento: {
-          val: new Date(usuario.dataNascimento),
+          val: new Date(ano, mes, dia),
           type: oracledb.DATE,
         },
         usuario: {
