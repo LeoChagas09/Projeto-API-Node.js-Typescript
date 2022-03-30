@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import oracledb from 'oracledb';
 import dbconfig from './db/dbconfig';

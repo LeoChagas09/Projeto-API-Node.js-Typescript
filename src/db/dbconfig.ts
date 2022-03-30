@@ -1,7 +1,7 @@
 export default {
-  user: `ifsapp`,
-  password: `ifshml`,
-  connectString: `(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=hworah01.casadiconti.local)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ifshml)))`,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONNECT_STRING,
   poolMin: 120,
   poolMax: 120,
   poolIncrement: 0,
