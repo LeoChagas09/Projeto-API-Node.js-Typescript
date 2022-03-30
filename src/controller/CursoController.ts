@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-param-reassign */
 import { Request, Response } from 'express';
 import oracledb from 'oracledb';
 import dbconfig from '../db/dbconfig';
@@ -200,6 +202,58 @@ export default class CursoController {
       connection.commit();
 
       res.status(200).json('Curso deletado com sucesso');
+    } catch (err) {
+      res.status(400).json('Erro de Conexão');
+    } finally {
+      if (connection) {
+        try {
+          await connection.close();
+        } catch (err) {
+          res.status(400).json('Erro ao fechar a Conexão');
+        }
+      }
+    }
+  }
+
+  static async InserirListaCursos(req: Request, res: Response): Promise<void> {
+    let connection;
+
+    try {
+      connection = await oracledb.getConnection(dbconfig);
+
+      const { cursos } = req.body;
+
+      cursos.forEach(cursos);
+
+      if (cursos.nomeCurso === undefined || cursos.professor === undefined) {
+        res.status(404).json('Falta parametros');
+      }
+
+      const sql =
+        'INSERT INTO teste_ti_curso (nome, professor) VALUES (:nome, :professor )';
+
+      const result = await connection.execute(
+        sql,
+        {
+          nome: {
+            val: String(cursos.nomeCurso),
+            type: oracledb.STRING,
+          },
+          professor: {
+            val: String(cursos.professor),
+            type: oracledb.STRING,
+          },
+        },
+        {},
+      );
+
+      connection.commit();
+
+      res
+        .status(201)
+        .json(
+          `Cursos cadastrados com sucesso e foi inserido ${result.rowsAffected} linhas`,
+        );
     } catch (err) {
       res.status(400).json('Erro de Conexão');
     } finally {
