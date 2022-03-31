@@ -234,7 +234,6 @@ export default class CursoController {
 
         const options = {
           autoCommit: true,
-          batchErrors: true,
           bindsDefs: {
             nome: {
               value: String(curso.nome),
