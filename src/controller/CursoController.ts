@@ -3,7 +3,7 @@
 import { Request, Response } from 'express';
 import oracledb from 'oracledb';
 import dbconfig from '../db/dbconfig';
-import { CursoInterface } from '../models/CursoInterface';
+import { CursoInterface, InterfaceCurso } from '../models/CursoInterface';
 
 export default class CursoController {
   static async show(req: Request, res: Response): Promise<void> {
@@ -216,44 +216,40 @@ export default class CursoController {
   }
 
   static async InserirListaCursos(req: Request, res: Response): Promise<void> {
-    let connection;
+    let connection: any;
 
     try {
       connection = await oracledb.getConnection(dbconfig);
 
-      const { cursos } = req.body;
+      const { cursos }: InterfaceCurso = req.body;
 
-      cursos.forEach(cursos);
+      cursos.forEach(async curso => {
+        if (curso.nome === undefined || curso.professor === undefined) {
+          res.status(404).json('Falta parametros');
+        }
+        const sql =
+          'INSERT INTO teste_ti_curso (nome, professor) VALUES (:nome, :professor )';
 
-      if (cursos.nomeCurso === undefined || cursos.professor === undefined) {
-        res.status(404).json('Falta parametros');
-      }
+        const binds = [curso.nome, curso.professor];
 
-      const sql =
-        'INSERT INTO teste_ti_curso (nome, professor) VALUES (:nome, :professor )';
-
-      const result = await connection.execute(
-        sql,
-        {
-          nome: {
-            val: String(cursos.nomeCurso),
-            type: oracledb.STRING,
+        const options = {
+          autoCommit: true,
+          batchErrors: true,
+          bindsDefs: {
+            nome: {
+              value: String(curso.nome),
+              type: oracledb.STRING,
+            },
+            professor: {
+              value: String(curso.professor),
+              type: oracledb.STRING,
+            },
           },
-          professor: {
-            val: String(cursos.professor),
-            type: oracledb.STRING,
-          },
-        },
-        {},
-      );
+        };
+        await connection.execute(sql, binds, options);
+      });
 
-      connection.commit();
-
-      res
-        .status(201)
-        .json(
-          `Cursos cadastrados com sucesso e foi inserido ${result.rowsAffected} linhas`,
-        );
+      res.status(201).json(`Cursos cadastrados com sucesso `);
     } catch (err) {
       res.status(400).json('Erro de Conexão');
     } finally {

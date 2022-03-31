@@ -3,3 +3,12 @@ export interface CursoInterface {
   curso: string;
   professor: string;
 }
+
+export interface CursosInterface {
+  nome: string;
+  professor: string;
+}
+
+export interface InterfaceCurso {
+  cursos: CursosInterface[];
+}
