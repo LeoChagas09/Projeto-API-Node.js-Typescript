@@ -95,7 +95,7 @@ export default class UsuarioController {
                 type: oracledb.NUMBER,
               },
               dt_nascimento: {
-                val: new Date(ano, mes, dia),
+                val: new Date(ano, mes - 1, dia),
                 type: oracledb.DATE,
               },
             },
@@ -350,7 +350,7 @@ export default class UsuarioController {
           type: oracledb.NUMBER,
         },
         dt_nascimento: {
-          val: new Date(ano, mes, dia),
+          val: new Date(ano, mes - 1, dia),
           type: oracledb.DATE,
         },
         usuario: {
@@ -433,7 +433,7 @@ export default class UsuarioController {
 
       const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
 
-      const sql = `SELECT cod_usuario, nome, apelido, login, senha, desativado, dt_nascimento FROM teste_ti_cad_usuario WHERE TO_CHAR(dt_nascimento, 'mm')`;
+      const sql = `SELECT cod_usuario, nome, apelido, login, senha, desativado, dt_nascimento FROM teste_ti_cad_usuario WHERE TO_CHAR(dt_nascimento, 'mm') = :dt_nascimento`;
 
       const result = await connection.execute<UsuarioInterface>(
         sql,
