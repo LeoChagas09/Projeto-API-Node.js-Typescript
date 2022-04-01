@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-plusplus */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express';
@@ -181,7 +182,7 @@ export default class UsuarioController {
           outFormat: oracledb.OUT_FORMAT_OBJECT,
         },
       );
-      resp.status(200).json(result.rows);
+      resp.status(200).json({ tipo_cliente: result.rows });
     } catch (err) {
       resp.status(400).json('Erro de Conexão');
     } finally {
