@@ -3,6 +3,7 @@ import CursoController from '../controller/CursoController';
 
 const cursoRouter = Router();
 
+cursoRouter.get('/teste', CursoController.InserirItemNoJSON);
 cursoRouter.get('/', CursoController.show);
 cursoRouter.get('/:id', CursoController.find);
 cursoRouter.post('/', CursoController.create);
