@@ -52,3 +52,12 @@ export interface DesativadoUsuario {
   tipo_usuario: string;
   desativado: number;
 }
+
+export interface TipoUsuarioDesativadoInterface {
+  cod_usuario: number;
+  nome: string;
+  apelido: string;
+  login: string;
+  senha: string;
+  dt_usuario: string;
+}

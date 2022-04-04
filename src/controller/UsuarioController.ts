@@ -12,6 +12,7 @@ import {
   UsuarioLogin,
   UsuarioNovoInterface,
   UsuarioInterface,
+  TipoUsuarioDesativadoInterface,
 } from '../models/UsuarioInterface';
 import convertLowerCase from '../convertLowerCase';
 
@@ -450,6 +451,54 @@ export default class UsuarioController {
       );
 
       resp.status(200).json(result.rows);
+    } catch (err) {
+      resp.status(400).json('Erro de Conexão');
+    } finally {
+      if (connection) {
+        try {
+          await connection.close();
+        } catch (err) {
+          resp.status(400).json('Erro ao fechar a Conexão');
+        }
+      }
+    }
+  }
+
+  static async BuscarTiposDesativados(
+    req: Request,
+    resp: Response,
+  ): Promise<void> {
+    let connection;
+
+    try {
+      connection = await oracledb.getConnection(dbconfig);
+
+      const tipoUsuario = req.params.tipo_usuario;
+      const { desativado } = req.params;
+
+      if (tipoUsuario === undefined || desativado === undefined) {
+        resp.status(400).json('Usuário invalido');
+      }
+
+      const sql = `SELECT cod_usuario, nome, apelido, login, senha, dt_nascimento FROM teste_ti_cad_usuario WHERE tipo_usuario = :tipo_usuario AND desativado = :desativado`;
+
+      const result = await connection.execute<TipoUsuarioDesativadoInterface>(
+        sql,
+        {
+          tipo_usuario: {
+            val: String(tipoUsuario),
+            type: oracledb.STRING,
+          },
+          desativado: {
+            val: String(desativado),
+            type: oracledb.STRING,
+          },
+        },
+        {
+          outFormat: oracledb.OUT_FORMAT_OBJECT,
+        },
+      );
+      resp.status(200).json({ tipo_clientes: result.rows });
     } catch (err) {
       resp.status(400).json('Erro de Conexão');
     } finally {

@@ -8,6 +8,10 @@ usuarioRouter.get('/data', UsuarioController.DataNascimento);
 usuarioRouter.get('/users', UsuarioController.UsuariosAtivosInativos);
 usuarioRouter.get('/login', UsuarioController.LoginSenha);
 usuarioRouter.get('/:tipo_usuario', UsuarioController.BuscarTiposUsuarios);
+usuarioRouter.get(
+  '/:tipo_usuario/:desativado',
+  UsuarioController.BuscarTiposDesativados,
+);
 usuarioRouter.post('/', UsuarioController.CriarUsuarios);
 usuarioRouter.put('/:cod_usuario', UsuarioController.AtivarDesativarUsuario);
 usuarioRouter.put(
