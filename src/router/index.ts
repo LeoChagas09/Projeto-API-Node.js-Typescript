@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import alunoRouter from './aluno';
 import apiRouter from './api';
+import arrayRouter from './array';
 import chaveRouter from './chave';
 import cursoRouter from './curso';
 import dataRouter from './data';
@@ -14,5 +15,6 @@ routes.use('/usuarios', usuarioRouter);
 routes.use('/api', apiRouter);
 routes.use('/data', dataRouter);
 routes.use('/chave', chaveRouter);
+routes.use('/array', arrayRouter);
 
 export default routes;
