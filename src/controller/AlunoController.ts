@@ -94,6 +94,7 @@ export default class AlunoController {
           nome: {
             val: String(nomeAluno),
             type: oracledb.STRING,
+            maxSize: 256,
           },
           id_curso: {
             val: Number(idCurso),
@@ -145,6 +146,7 @@ export default class AlunoController {
           nome: {
             val: String(nomeAluno),
             type: oracledb.STRING,
+            maxSize: 256,
           },
           id_curso: {
             val: Number(idCurso),

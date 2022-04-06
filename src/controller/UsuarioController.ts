@@ -75,26 +75,32 @@ export default class UsuarioController {
               nome: {
                 val: String(usuario.nome),
                 type: oracledb.STRING,
+                maxSize: 80,
               },
               apelido: {
                 val: String(usuario.apelido),
                 type: oracledb.STRING,
+                maxSize: 30,
               },
               login: {
                 val: String(usuario.login),
                 type: oracledb.STRING,
+                maxSize: 60,
               },
               senha: {
                 val: String(hash),
                 type: oracledb.STRING,
+                maxSize: 60,
               },
               tipo_usuario: {
                 val: String(usuario.tipo_usuario),
                 type: oracledb.STRING,
+                maxSize: 2,
               },
               desativado: {
                 val: Number(usuario.desativado),
                 type: oracledb.NUMBER,
+                maxSize: 1,
               },
               dt_nascimento: {
                 val: new Date(ano, mes - 1, dia),
@@ -222,6 +228,7 @@ export default class UsuarioController {
           desativado: {
             val: Number(desativado),
             type: oracledb.NUMBER,
+            maxSize: 1,
           },
           cod_usuario: {
             val: Number(codUsuario),
@@ -326,26 +333,32 @@ export default class UsuarioController {
         nome: {
           val: String(usuario.nome),
           type: oracledb.STRING,
+          maxSize: 80,
         },
         apelido: {
           val: String(usuario.apelido),
           type: oracledb.STRING,
+          maxSize: 30,
         },
         login: {
           val: String(usuario.login),
           type: oracledb.STRING,
+          maxSize: 60,
         },
         senha: {
           val: String(hash),
           type: oracledb.STRING,
+          maxSize: 60,
         },
         tipo_usuario: {
           val: String(usuario.tipo_usuario),
           type: oracledb.STRING,
+          maxSize: 2,
         },
         desativado: {
           val: Number(usuario.desativado),
           type: oracledb.NUMBER,
+          maxSize: 1,
         },
         cod_usuario: {
           val: Number(codUsuario),

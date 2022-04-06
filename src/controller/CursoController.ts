@@ -84,10 +84,12 @@ export default class CursoController {
           nome: {
             val: String(nomeCurso),
             type: oracledb.STRING,
+            maxSize: 256,
           },
           professor: {
             val: String(professor),
             type: oracledb.STRING,
+            maxSize: 256,
           },
         },
         { autoCommit: true },
@@ -128,10 +130,12 @@ export default class CursoController {
           nome: {
             val: String(nomeCurso),
             type: oracledb.STRING,
+            maxSize: 256,
           },
           professor: {
             val: String(professor),
             type: oracledb.STRING,
+            maxSize: 256,
           },
           id: {
             val: Number(idCurso),
@@ -208,10 +212,12 @@ export default class CursoController {
             nome: {
               value: String(curso.nome),
               type: oracledb.STRING,
+              maxSize: 256,
             },
             professor: {
               value: String(curso.professor),
               type: oracledb.STRING,
+              maxSize: 256,
             },
           },
         };
